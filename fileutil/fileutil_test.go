@@ -31,7 +31,6 @@ func TestGetFileContents(t *testing.T) {
 }
 
 func TestAddToFile(t *testing.T) {
-	//File should be currently empty
 	testString := "test_write_string"
 	path := "fileutil_test"
 	fileName := "test_add.txt"
