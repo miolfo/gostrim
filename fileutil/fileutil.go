@@ -2,6 +2,7 @@ package fileutil
 
 import (
 	"io/ioutil"
+	"os"
 	"path/filepath"
 )
 
@@ -13,6 +14,19 @@ func GetFileContents(path, fileName string) string {
 	}
 	data, err := ioutil.ReadFile(path)
 	return string(data)
+}
+
+//AddLineToFile appends a file named fileName at path with line
+func AddLineToFile(line, path, fileName string) {
+	fullPath := CreateFullPath(path, fileName)
+	//Make sure that the file exists
+	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
+		createFile(path, fileName)
+	}
+	file, err := os.OpenFile(fullPath, os.O_APPEND, 0666)
+	checkError(err)
+	_, err = file.WriteString(line + "\n")
+	checkError(err)
 }
 
 //CreateFullPath combines the path and filename to an actual path
@@ -28,4 +42,17 @@ func CreateFullPath(path, fileName string) string {
 		n = fileName[1:len(fileName)]
 	}
 	return p + n
+}
+
+func createFile(path, fileName string) {
+	err := os.Mkdir(path, 0666)
+	checkError(err)
+	_, err = os.Create(fileName)
+	checkError(err)
+}
+
+func checkError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }

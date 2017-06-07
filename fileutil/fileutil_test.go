@@ -20,5 +20,9 @@ func TestCreateFullPath(t *testing.T) {
 			t.Error("Expected " + cases.expected + ", got " + actual)
 		}
 	}
+}
 
+func TestAddLineToFile(t *testing.T) {
+	//TODO: test
+	t.Error("Test not implemented")
 }
