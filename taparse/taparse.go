@@ -2,14 +2,15 @@ package taparse
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
-	"path/filepath"
 	"strconv"
+
+	"github.com/miolfo/gostrim/fileutil"
 )
 
-const apikeyPathName = "taparse/ta.key"
+const apikeyPath = "taparse"
+const apikeyFileName = "ta.key"
 const rootURL = "https://api.twitch.tv/kraken/"
 const accept = "application/vnd.twitchtv.v5+json"
 
@@ -27,15 +28,7 @@ func initialize() {
 
 //Get the users api key from ta.key
 func getAPIKeyFromFile() string {
-	path, err := filepath.Abs(apikeyPathName)
-	if err != nil {
-		panic(err)
-	}
-	data, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Printf("Is your API key pasted to gostrim/ta.key?")
-	}
-	return string(data)
+	return fileutil.GetFileContents(apikeyPath, apikeyFileName)
 }
 
 //IsStreamerOnline checks if a particular streamer is online
