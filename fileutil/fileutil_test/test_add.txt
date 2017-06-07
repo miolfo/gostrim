@@ -1,0 +1,1 @@
+test_write_stringtest_write_string
