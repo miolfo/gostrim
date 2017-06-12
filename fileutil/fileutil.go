@@ -8,7 +8,7 @@ import (
 
 //GetFileContents gets the contents of the file (name) in path (path)
 func GetFileContents(path, fileName string) string {
-	path, err := filepath.Abs(CreateFullPath(path, fileName))
+	path, err := filepath.Abs(createFullPath(path, fileName))
 	if err != nil {
 		panic(err)
 	}
@@ -17,8 +17,8 @@ func GetFileContents(path, fileName string) string {
 }
 
 //AddToFile appends a file named fileName at path with line
-func AddToFile(text, path, fileName string) {
-	fullPath := CreateFullPath(path, fileName)
+func addToFile(text, path, fileName string) {
+	fullPath := createFullPath(path, fileName)
 	//Make sure that the file exists
 	if !fileExists(path, fileName) {
 		createFile(path, fileName)
@@ -30,15 +30,15 @@ func AddToFile(text, path, fileName string) {
 }
 
 //EmptyFile removes the contents of a file
-func EmptyFile(path, fileName string) {
+func emptyFile(path, fileName string) {
 	if !fileExists(path, fileName) {
 		panic("Can't empty non-existent file!")
 	}
-	ioutil.WriteFile(CreateFullPath(path, fileName), []byte(""), 0644)
+	ioutil.WriteFile(createFullPath(path, fileName), []byte(""), 0644)
 }
 
 //CreateFullPath combines the path and filename to an actual path
-func CreateFullPath(path, fileName string) string {
+func createFullPath(path, fileName string) string {
 	p := path
 	if len(path) == 0 {
 		p = "/"
@@ -60,7 +60,7 @@ func createFile(path, fileName string) {
 }
 
 func fileExists(path, fileName string) bool {
-	if _, err := os.Stat(CreateFullPath(path, fileName)); os.IsNotExist(err) {
+	if _, err := os.Stat(createFullPath(path, fileName)); os.IsNotExist(err) {
 		return false
 	}
 	return true

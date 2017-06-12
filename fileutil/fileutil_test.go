@@ -15,7 +15,7 @@ var createFullPathTests = []struct {
 
 func TestCreateFullPath(t *testing.T) {
 	for _, cases := range createFullPathTests {
-		actual := CreateFullPath(cases.path, cases.name)
+		actual := createFullPath(cases.path, cases.name)
 		if actual != cases.expected {
 			t.Error("Expected " + cases.expected + ", got " + actual)
 		}
@@ -34,14 +34,13 @@ func TestAddToFile(t *testing.T) {
 	testString := "test_write_string"
 	path := "fileutil_test"
 	fileName := "test_add.txt"
-	EmptyFile(path, fileName)
-	AddToFile(testString, path, fileName)
+	emptyFile(path, fileName)
+	addToFile(testString, path, fileName)
 	content := GetFileContents(path, fileName)
-	println(content)
 	if content != testString {
 		t.Error("File contents should be " + testString + ", was " + content)
 	}
-	AddToFile(testString, path, fileName)
+	addToFile(testString, path, fileName)
 	content = GetFileContents(path, fileName)
 	if content != (testString + testString) {
 		t.Error("File contents should be " + testString + testString + ", was " + content)
