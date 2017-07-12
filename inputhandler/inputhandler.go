@@ -1,5 +1,11 @@
 package inputhandler
 
+import (
+	"errors"
+	"fmt"
+	"strings"
+)
+
 type inputHandler func()
 
 type InputAction struct {
@@ -31,8 +37,31 @@ func HandleInput(input string) {
 
 }
 
-func getCommandsAndParameters(input string) []string {
+func getCommandsAndParameters(input string) {
+	//Get the first command
+	remaining := input
+	var err error
+	var cmd, param string
+	for err == nil {
+		remaining, cmd, param, err = getNextCommandAndParameter(remaining)
+		fmt.Printf("Command found was %v, param is %v, remaining %v\n", cmd, param, remaining)
+	}
+}
 
+func getNextCommandAndParameter(input string) (remaining string, cmd string, param string, err error) {
+	ind := strings.Index(input, "-")
+	if ind == -1 {
+		return "", "", "", errors.New("No more arguments")
+	}
+	c := string(input[ind+1])
+	rem := input[ind+2 : len(input)]
+	//See if any more arguments remaining
+	nextInd := strings.Index(rem, "-")
+	var e error
+	if nextInd == -1 {
+		e = errors.New("No more arguments")
+	}
+	return rem, c, rem[strings.Index(rem, " "):len(rem)], e
 }
 
 func addChannel() {
